@@ -8,4 +8,4 @@ services:
     volumes:
       - ./:/web/
     working_dir: /web
-    command: 'npm run dev'
+    command: 'sh -c "npm i && npm run dev"'
