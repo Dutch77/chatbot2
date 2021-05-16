@@ -1,0 +1,51 @@
+{
+  "name": "chatbot2",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "npx ts-node-dev -T -I '[]' src",
+    "start": "node src",
+    "clean": "tsc --build --clean",
+    "build": "MODE=production tsc",
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
+    "dcdev": "docker-compose exec service npx ts-node-dev -T -I '[]' src",
+    "dcstart": "docker-compose exec -e MODE=production service node src",
+    "dcclean": "docker-compose exec service npx tsc --build --clean",
+    "dcbuild": "docker-compose exec service npx tsc",
+    "dctypeorm": "docker-compose exec service node --require ts-node/register ./node_modules/typeorm/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.designeo.cz:bryanthings/services/stripe-payment-service.git"
+  },
+  "author": "Michal Kolář",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "lodash": "^4.17.21",
+    "module-alias": "^2.2.2",
+    "safe-eval": "^0.4.1",
+    "ts-messenger-api": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/globalthis": "^1.0.1",
+    "@types/lodash": "^4.14.168",
+    "@types/node": "^14.14.41",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "@typescript-eslint/parser": "^4.22.1",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.25.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-putout": "^7.5.0",
+    "putout": "^17.0.0",
+    "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.4",
+    "yargs": "^17.0.1"
+  },
+  "_moduleAliases": {
+    "@": "src"
+  }
+}
