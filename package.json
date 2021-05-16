@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "dotenv": "^9.0.2",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.2",
     "safe-eval": "^0.4.1",
@@ -35,7 +36,6 @@
     "@types/node": "^14.14.41",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "@typescript-eslint/parser": "^4.22.1",
-    "dotenv": "^8.2.0",
     "eslint": "^7.25.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-putout": "^7.5.0",
