@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 import safeEval from 'safe-eval';
+import jsdom from 'jsdom';
 import {ProcessorInterface} from '../ProcessorInterface';
 
 export const doEval = async function(
@@ -14,6 +15,7 @@ export const doEval = async function(
       {
         _,
         axios,
+        jsdom,
       },
       {
         timeout: timeout,
