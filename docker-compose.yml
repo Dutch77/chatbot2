@@ -1,10 +1,8 @@
 version: '2'
 services:
   chatbot:
-    user: node
+    user: root
     image: node:16
-    ports:
-      - 8080:3000
     volumes:
       - ./:/web/
     working_dir: /web

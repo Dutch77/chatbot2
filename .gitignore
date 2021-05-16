@@ -3,4 +3,5 @@ node_modules
 src/*.js
 src/*.js.map
 appState.json
-extracts
+extracts/incomingAttachments/*
+!extracts/incomingAttachments/.gitkeep
