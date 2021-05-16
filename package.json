@@ -25,6 +25,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "dotenv": "^9.0.2",
+    "jsdom": "^16.5.3",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.2",
     "safe-eval": "^0.4.1",
