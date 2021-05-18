@@ -13,11 +13,12 @@ export class FacebookManager {
     email: string,
     password: string,
     appStatePath: string,
+    messageHandler: MessageHandler,
   ) {
     this.email = email;
     this.password = password;
     this.appStatePath = appStatePath;
-    this.messageHandler = new MessageHandler();
+    this.messageHandler = messageHandler;
   }
 
   async run(): Promise<void> {
@@ -33,23 +34,26 @@ export class FacebookManager {
       };
     }
 
-    const api = await facebookLogin(loginData, {
-      listenEvents: true,
-    });
+    try {
+      const api = await facebookLogin(loginData, {
+        listenEvents: true,
+      });
+      fs.writeFileSync(this.appStatePath, JSON.stringify(api.getAppState()));
 
-    fs.writeFileSync(this.appStatePath, JSON.stringify(api.getAppState()));
+      await api.listen();
 
-    await api.listen();
-
-    api.listener.addListener('message', async (message: AnyIncomingMessage) => {
-      if (message.type === IncomingMessageType.MessageRegular) {
-        const processedMessage = await this.messageHandler.processMessage(message.body);
-        if (processedMessage) {
-          await api.sendMessage({body: processedMessage}, message.threadId);
+      api.listener.addListener('message', async (message: AnyIncomingMessage) => {
+        if (message.type === IncomingMessageType.MessageRegular) {
+          const processedMessage = await this.messageHandler.processMessage(message.body);
+          if (processedMessage) {
+            await api.sendMessage({body: processedMessage}, message.threadId);
+          }
         }
-      }
-    });
+      });
 
-    api.listener.addListener('error', (error) => console.error(error));
+      api.listener.addListener('error', (error) => console.error(error));
+    } catch (e) {
+      console.error('Failed to login.', e.message);
+    }
   }
 }
