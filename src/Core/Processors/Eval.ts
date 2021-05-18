@@ -34,7 +34,7 @@ export default class Eval implements ProcessorInterface {
   }
 
   getCommandDescription() {
-    return `${this.getCommandName()} - evaluate expression ($eval 2 * Math.PI * 6368)`;
+    return `${this.getCommandName()} - evaluate expression ($eval 2 * Math.PI * 6368) => 40011.32`;
   }
 
   async respondToCommand(script) {

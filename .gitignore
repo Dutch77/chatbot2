@@ -5,3 +5,5 @@ src/*.js.map
 appState.json
 extracts/incomingAttachments/*
 !extracts/incomingAttachments/.gitkeep
+storage/*
+!storage/.gitkeep

@@ -9,10 +9,10 @@
     "build": "MODE=production tsc",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
     "dcdev": "docker-compose exec service npx ts-node-dev -T -I '[]' src",
-    "dcstart": "docker-compose exec -e MODE=production service node src",
-    "dcclean": "docker-compose exec service npx tsc --build --clean",
-    "dcbuild": "docker-compose exec service npx tsc",
-    "dctypeorm": "docker-compose exec service node --require ts-node/register ./node_modules/typeorm/cli.js"
+    "dcstart": "docker-compose exec -e MODE=production chatbot node src",
+    "dcclean": "docker-compose exec chatbot npx tsc --build --clean",
+    "dcbuild": "docker-compose exec chatbot npx tsc",
+    "dctypeorm": "docker-compose exec chatbot node --require ts-node/register ./node_modules/typeorm/cli.js"
   },
   "repository": {
     "type": "git",
@@ -28,8 +28,11 @@
     "jsdom": "^16.5.3",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.2",
+    "pg": "^8.6.0",
+    "reflect-metadata": "^0.1.13",
     "safe-eval": "^0.4.1",
-    "ts-messenger-api": "^1.0.2"
+    "ts-messenger-api": "^1.0.2",
+    "typeorm": "^0.2.32"
   },
   "devDependencies": {
     "@types/globalthis": "^1.0.1",
