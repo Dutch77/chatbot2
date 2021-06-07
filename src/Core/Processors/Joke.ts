@@ -29,7 +29,7 @@ export default class Joke implements ProcessorInterface {
           .limit(1)
           .getOne();
       }
-      return `${jokeEntity.joke} (${jokeEntity.id})`;
+      return jokeEntity ? `${jokeEntity.joke} (${jokeEntity.id})` : null;
     } catch (e) {
       return e.message;
     }

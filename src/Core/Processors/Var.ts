@@ -23,6 +23,9 @@ export default class Var implements ProcessorInterface {
         where: {
           name: variableName,
         },
+        order: {
+          id: 'DESC',
+        },
       });
       return variable.value;
     } catch (e) {

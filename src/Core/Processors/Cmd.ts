@@ -15,7 +15,7 @@ export default class Cmd implements ProcessorInterface {
   }
 
   getCommandDescription() {
-    return `${this.getCommandName()} - loads variable`;
+    return `${this.getCommandName()} - loads command`;
   }
 
   async respondToCommand(commandName: string) {
@@ -23,6 +23,9 @@ export default class Cmd implements ProcessorInterface {
       const command = await this.connection.manager.getRepository(Command).findOneOrFail({
         where: {
           name: commandName,
+        },
+        order: {
+          id: 'DESC',
         },
       });
       return doEval(command.value);

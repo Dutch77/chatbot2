@@ -15,13 +15,10 @@ export default async ({connection}) => {
   processors['$rnd'] = new Rnd();
   processors['$help'] = new Help(processors);
   processors['$joke'] = new Joke(connection);
-  processors['$jokeLoad'] = new Joke(connection);
   processors['$jokeSave'] = new JokeSave(connection);
   processors['$var'] = new Var(connection);
-  processors['$varLoad'] = new Var(connection);
   processors['$varSave'] = new VarSave(connection);
   processors['$cmd'] = new Cmd(connection);
-  processors['$cmdLoad'] = new Cmd(connection);
   processors['$cmdSave'] = new CmdSave(connection);
 
   return {
