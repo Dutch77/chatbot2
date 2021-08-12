@@ -22,17 +22,23 @@ export class FacebookManager {
   }
 
   async run(): Promise<void> {
-    let loginData;
-    if (fs.existsSync(this.appStatePath)) {
-      loginData = {
-        appState: JSON.parse(fs.readFileSync(this.appStatePath).toString()),
-      };
-    } else {
-      loginData = {
-        email: this.email,
-        password: this.password,
-      };
-    }
+    // todo: cookie is broken
+    // let loginData;
+    // if (fs.existsSync(this.appStatePath)) {
+    //   loginData = {
+    //     appState: JSON.parse(fs.readFileSync(this.appStatePath).toString()),
+    //   };
+    // } else {
+    //   loginData = {
+    //     email: this.email,
+    //     password: this.password,
+    //   };
+    // }
+
+    const loginData = {
+      email: this.email,
+      password: this.password,
+    };
 
     try {
       const api = await facebookLogin(loginData, {
