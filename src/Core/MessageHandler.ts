@@ -18,7 +18,7 @@ export class MessageHandler {
     const value = _.get(matches, [3]);
     const processor = this.getProcessor(command);
     if (processor) {
-      this.out('Processor:', processor);
+      this.out('Processor:', processor.getCommandName());
       const responseMessage = await processor.respondToCommand(value, extra);
       this.out('Response message:', responseMessage.message);
       return responseMessage;
