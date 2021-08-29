@@ -2,8 +2,12 @@ import fs from 'fs';
 import facebookLogin from 'ts-messenger-api';
 import {AnyIncomingMessage, IncomingMessageType} from 'ts-messenger-api/dist/lib/types/incomingMessages';
 import {MessageHandler} from '@/Core/MessageHandler';
+import Logger from '@/Logger/Logger';
+import Api from 'ts-messenger-api/dist/lib/api';
+import {omit} from 'lodash';
 
 export class FacebookManager {
+  private api: Api
   private email: string;
   private password: string;
   private appStatePath: string;
@@ -22,44 +26,66 @@ export class FacebookManager {
   }
 
   async run(): Promise<void> {
-    // todo: cookie is broken
-    // let loginData;
-    // if (fs.existsSync(this.appStatePath)) {
-    //   loginData = {
-    //     appState: JSON.parse(fs.readFileSync(this.appStatePath).toString()),
-    //   };
-    // } else {
-    //   loginData = {
-    //     email: this.email,
-    //     password: this.password,
-    //   };
-    // }
+    await this.init();
+  }
 
+  async init() {
+    if (this.api) {
+      try {
+        await this.api.logout();
+      } catch (e) {
+        Logger.error(e);
+      }
+    }
+
+    try {
+      await this.login();
+      fs.writeFileSync(this.appStatePath, JSON.stringify(this.api.getAppState()));
+      await this.registerListeners();
+    } catch (e) {
+      console.error('Failed to login.', e.message);
+    }
+  }
+
+  async checkIfAlive() {
+    try {
+      await this.api.getFriendsList();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  getApi() {
+    return this.api;
+  }
+
+  private async login() {
     const loginData = {
       email: this.email,
       password: this.password,
     };
 
-    try {
-      const api = await facebookLogin(loginData, {
-        listenEvents: true,
-      });
-      fs.writeFileSync(this.appStatePath, JSON.stringify(api.getAppState()));
+    this.api = await facebookLogin(loginData, {
+      listenEvents: true,
+    });
+  }
 
-      await api.listen();
+  private async registerListeners() {
+    await this.api.listen();
 
-      api.listener.addListener('message', async (message: AnyIncomingMessage) => {
-        if (message.type === IncomingMessageType.MessageRegular) {
-          const processedMessage = await this.messageHandler.processMessage(message.body);
-          if (processedMessage) {
-            await api.sendMessage({body: processedMessage}, message.threadId);
-          }
+    this.api.listener.addListener('message', async (message: AnyIncomingMessage) => {
+      if (message.type === IncomingMessageType.MessageRegular) {
+        const processedMessage = await this.messageHandler.processMessage(message.body, message);
+        if (processedMessage) {
+          await this.api.sendMessage({
+            body: processedMessage.message,
+            ...(omit(processedMessage, 'message')),
+          }, message.threadId);
         }
-      });
+      }
+    });
 
-      api.listener.addListener('error', (error) => console.error(error));
-    } catch (e) {
-      console.error('Failed to login.', e.message);
-    }
+    this.api.listener.addListener('error', (error) => Logger.error(error));
   }
 }

@@ -1,16 +1,17 @@
 import _ from 'lodash';
+import {ProcessorInterface} from '@/Core/ProcessorInterface';
 
 type Out = (...args)=> void;
 
 export class MessageHandler {
-  private processors: any;
+  private processors: Array<ProcessorInterface>;
   private out: Out;
 
   constructor(processors, out: Out) {
     this.processors = processors;
     this.out = out;
   }
-  async processMessage(message: string): Promise<string> {
+  async processMessage(message: string, extra: any = {}): Promise<ProcessedMessage> {
     const regex = /(\$\w+)(\s+)?((.|\s)+)?/;
     const matches = regex.exec(message);
     const command = _.get(matches, [1]);
@@ -18,7 +19,7 @@ export class MessageHandler {
     const processor = this.getProcessor(command);
     if (processor) {
       this.out('Processor:', processor);
-      const responseMessage = await processor.respondToCommand(value);
+      const responseMessage = await processor.respondToCommand(value, extra);
       this.out('Response message:', responseMessage);
       return responseMessage;
     }
@@ -34,3 +35,8 @@ export default async ({isSandbox, processors}) => {
     messageHandler: new MessageHandler(processors, isSandbox ? ()=>null : console.log),
   };
 };
+
+export interface ProcessedMessage {
+  message: string,
+  [key: string]: any
+}

@@ -7,6 +7,7 @@ import Var from '@/Core/Processors/Var';
 import VarSave from '@/Core/Processors/VarSave';
 import Cmd from '@/Core/Processors/Cmd';
 import CmdSave from '@/Core/Processors/CmdSave';
+import Channel from '@/Modules/Facebook/Processors/Channel';
 
 export default async ({connection}) => {
   const processors = {};
@@ -20,6 +21,7 @@ export default async ({connection}) => {
   processors['$varSave'] = new VarSave(connection);
   processors['$cmd'] = new Cmd(connection);
   processors['$cmdSave'] = new CmdSave(connection);
+  processors['$channel'] = new Channel();
 
   return {
     processors,

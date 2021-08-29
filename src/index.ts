@@ -7,6 +7,8 @@ import registerProcessors from '@/Core/Processors';
 import registerFacebook from '@/Modules/Facebook';
 import registerSandbox from '@/Modules/Sandbox';
 
+export let appContext: AppContext;
+
 export const createContext = async () => {
   const isSandbox = process.env.MDOE === 'sandbox';
   const contextDefinition = _createContext({
@@ -32,5 +34,5 @@ export type AppContext = ThenArg<ReturnType<typeof createContext>>
 
 (async () => {
   console.log('Starting.');
-  await createContext();
+  appContext = await createContext();
 })();

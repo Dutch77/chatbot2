@@ -7,3 +7,4 @@ extracts/incomingAttachments/*
 !extracts/incomingAttachments/.gitkeep
 storage/*
 !storage/.gitkeep
+chatbot.log

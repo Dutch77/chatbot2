@@ -12,11 +12,13 @@ export default class Rnd implements ProcessorInterface {
 
   async respondToCommand(script: string) {
     if (!_.isString(script)) {
-      return null;
+      return {message: null};
     }
     const array = script.trim().split(',');
-    return _.shuffle(array)
-      .pop()
-      .trim();
+    return {
+      message: _.shuffle(array)
+        .pop()
+        .trim(),
+    };
   }
 }

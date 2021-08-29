@@ -16,9 +16,11 @@ export default class Help implements ProcessorInterface {
   }
 
   async respondToCommand() {
-    return _.chain(this.processors)
-      .map((processor) => processor.getCommandDescription() || processor.getCommandName())
-      .join('\n')
-      .value();
+    return {
+      message: _.chain(this.processors)
+        .map((processor) => processor.getCommandDescription() || processor.getCommandName())
+        .join('\n')
+        .value(),
+    };
   }
 }

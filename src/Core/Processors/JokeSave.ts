@@ -26,9 +26,9 @@ export default class JokeSave implements ProcessorInterface {
       const joke = new Joke();
       joke.joke = jokeText;
       await this.connection.manager.getRepository(Joke).save(joke);
-      return 'Saved';
+      return {message: 'Saved'};
     } catch (e) {
-      return e.message;
+      return {message: e.message};
     }
   }
 }

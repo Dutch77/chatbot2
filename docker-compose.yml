@@ -3,7 +3,7 @@ services:
   chatbot:
     user: root
     image: node:16
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./:/web/
     working_dir: /web
@@ -21,8 +21,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: db
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - ./storage:/var/lib/postgresql
+      - ./storage/postgresql:/var/lib/postgresql
     ports:
     - 6543:5432
 

@@ -27,9 +27,9 @@ export default class Var implements ProcessorInterface {
           id: 'DESC',
         },
       });
-      return variable.value;
+      return {message: variable.value};
     } catch (e) {
-      return e.message;
+      return {message: e.message};
     }
   }
 }

@@ -31,9 +31,9 @@ export default class CmdSave implements ProcessorInterface {
       variable.name = key;
       variable.value = value;
       await this.connection.manager.getRepository(Command).save(variable);
-      return 'Saved';
+      return {message: 'Saved'};
     } catch (e) {
-      return e.message;
+      return {message: e.message};
     }
   }
 }
