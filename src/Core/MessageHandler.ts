@@ -20,7 +20,7 @@ export class MessageHandler {
     if (processor) {
       this.out('Processor:', processor);
       const responseMessage = await processor.respondToCommand(value, extra);
-      this.out('Response message:', responseMessage);
+      this.out('Response message:', responseMessage.message);
       return responseMessage;
     }
   }

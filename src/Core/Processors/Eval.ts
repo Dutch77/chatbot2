@@ -38,7 +38,6 @@ export default class Eval implements ProcessorInterface {
   }
 
   async respondToCommand(script) {
-    console.log(script, await doEval(script));
     return {message: await doEval(script)};
   }
 }
