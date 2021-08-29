@@ -7,7 +7,7 @@ services:
     volumes:
       - ./:/web/
     working_dir: /web
-    command: 'sh -c "npm i && npm run dev"'
+    command: 'sh -c "npm i && patches/patchThreadInfoFormatter.sh && npm run dev"'
     environment:
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432

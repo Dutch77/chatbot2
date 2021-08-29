@@ -28,7 +28,7 @@ export default class Cmd implements ProcessorInterface {
           id: 'DESC',
         },
       });
-      return {message: doEval(command.value)};
+      return {message: await doEval(command.value)};
     } catch (e) {
       return {message: e.message};
     }
