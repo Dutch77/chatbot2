@@ -4,7 +4,8 @@ import {AnyIncomingMessage, IncomingMessageType} from 'ts-messenger-api/dist/lib
 import {MessageHandler} from '@/Core/MessageHandler';
 import Logger from '@/Logger/Logger';
 import Api from 'ts-messenger-api/dist/lib/api';
-import {omit} from 'lodash';
+import {omit, reject} from 'lodash';
+import {timeoutPromise} from '@/Helpers/timeoutPromise';
 
 export class FacebookManager {
   private api: Api
@@ -49,7 +50,12 @@ export class FacebookManager {
 
   async checkIfAlive() {
     try {
-      await this.api.getFriendsList();
+      // abort after 30s
+      // todo remove logs
+      console.log('debug is alive');
+      console.log(new Date().toISOString());
+      const result = await timeoutPromise(30 * 1000, this.api.getFriendsList());
+      console.log(new Date().toISOString(), result.length);
       return true;
     } catch (e) {
       return false;
