@@ -4,7 +4,10 @@ const APP_STATE_PATH = './appState.json';
 
 const checkIfAlive = (facebookManager: FacebookManager, timeInSeconds: number = 300) => {
   setInterval(async () => {
-    if (!(await facebookManager.checkIfAlive())) {
+    const isAlive = await facebookManager.checkIfAlive();
+    console.log(`Alive status: ${isAlive ? 'OK' : 'KO' }`);
+    if (!(isAlive)) {
+      console.log('Trying to reconnect');
       await facebookManager.init();
     }
   }, timeInSeconds * 1000);
