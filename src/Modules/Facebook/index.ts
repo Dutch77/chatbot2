@@ -2,13 +2,15 @@ import {FacebookManager} from '@/Modules/Facebook/FacebookManager';
 
 const APP_STATE_PATH = './appState.json';
 
-const checkIfAlive = (facebookManager: FacebookManager, timeInSeconds: number = 300) => {
+const periodicallyReconnect = (facebookManager: FacebookManager, timeInSeconds: number = (24 * 60 * 60)) => {
   setInterval(async () => {
-    const isAlive = await facebookManager.checkIfAlive();
-    console.log(`Alive status: ${isAlive ? 'OK' : 'KO' }`);
-    if (!(isAlive)) {
-      console.log('Trying to reconnect');
-      await facebookManager.init();
+    try {
+      console.log('Reconnecting.');
+      await facebookManager.reconnect();
+      console.log('Done.');
+    } catch (e) {
+      console.error('Reconnect failed.', e.message);
+      throw e;
     }
   }, timeInSeconds * 1000);
 };
@@ -16,7 +18,7 @@ const checkIfAlive = (facebookManager: FacebookManager, timeInSeconds: number = 
 export default async ({facebookEmail, facebookPassword, messageHandler}) => {
   const facebookManager = new FacebookManager(facebookEmail, facebookPassword, APP_STATE_PATH, messageHandler);
   await facebookManager.run();
-  checkIfAlive(facebookManager);
+  periodicallyReconnect(facebookManager);
 
   return {
     facebookManager,

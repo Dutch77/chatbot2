@@ -48,17 +48,26 @@ export class FacebookManager {
     }
   }
 
-  async checkIfAlive() {
+  async reconnect() {
     try {
-      // abort after 30s
-      // todo remove logs
-      console.log('debug is alive');
-      console.log(new Date().toISOString());
-      const result = await timeoutPromise(30 * 1000, this.api.getFriendsList());
-      console.log(new Date().toISOString(), result.length);
-      return true;
+      await this.api.stopListening();
     } catch (e) {
-      return false;
+      Logger.error(e.message);
+      throw e;
+    }
+
+    try {
+      await this.api.logout();
+    } catch (e) {
+      Logger.error(e.message);
+      throw e;
+    }
+
+    try {
+      await this.init();
+    } catch (e) {
+      Logger.error(e.message);
+      throw e;
     }
   }
 
