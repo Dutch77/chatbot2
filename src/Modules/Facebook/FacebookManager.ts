@@ -101,6 +101,9 @@ export class FacebookManager {
       }
     });
 
-    this.api.listener.addListener('error', (error) => Logger.error(error));
+    this.api.listener.addListener('error', (error) => {
+      console.error(error);
+      Logger.error(error);
+    });
   }
 }
